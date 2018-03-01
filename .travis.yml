@@ -12,7 +12,7 @@ before_install:
 install:
   - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
   - git clone https://github.com/anchore/anchore-cli
-  - pip install --user --upgrade anchore-cli/
+  - pip install --upgrade anchore-cli/
   - docker-compose pull
   - docker-compose up -d
 
