@@ -1,0 +1,33 @@
+version: '3'
+services:
+  anchore-engine:
+    #image: "anchore-engine"
+    image: docker.io/anchore/anchore-engine:latest
+    #privileged: true
+    depends_on:
+     - anchore-db
+    volumes:
+     - ./config:/config/:Z
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 100m
+    networks:
+      - backend
+    ports:
+      - "8228:8228"
+      - "8338:8338"
+  anchore-db:
+    image: "postgres:9"
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - PGDATA=/var/lib/postgresql/data/pgdata/
+    logging:
+     driver: "json-file"
+     options:
+      max-size: 100m
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge

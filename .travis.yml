@@ -1,0 +1,30 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y python-pip
+
+install:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - git clone https://github.com/anchore/anchore-cli
+  - pip install --user --upgrade anchore-cli/
+  - docker-compose pull
+  - docker-compose up -d
+
+script:
+  - $(./scripts/get_env.sh)
+  - ./scripts/wait_ready.sh
+
+after_success:
+  - docker-compose stop anchore-engine
+  - docker-compose stop anchore-db
+  - docker commit $(docker-compose ps | grep anchore-db | awk '{print $1}') talanor/anchore-db:$(date +%Y-%m-%d)
+  - docker tag talanor/anchore-db:$(date +%Y-%m-%d) talanor/anchore-db:latest
+  - docker images
+  - docker push talanor/anchore-db:$(date +%Y-%m-%d)
+  - docker push talanor/anchore-db:latest
