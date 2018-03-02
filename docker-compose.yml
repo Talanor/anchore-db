@@ -21,7 +21,7 @@ services:
     image: "postgres:9"
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
-      - PGDATA=/var/lib/postgresql/data/pgdata/
+      - PGDATA=/var/lib/postgresql/anchore
     logging:
      driver: "json-file"
      options:
