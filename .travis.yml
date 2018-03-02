@@ -18,7 +18,6 @@ install:
 
 script:
   - $(./scripts/get_env.sh)
-  - sleep 60
   - ./scripts/wait_ready.sh
   - docker-compose logs anchore-engine
 
