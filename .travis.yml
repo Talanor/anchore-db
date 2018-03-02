@@ -18,6 +18,7 @@ install:
 
 script:
   - $(./scripts/get_env.sh)
+  - sleep 20
   - ./scripts/wait_ready.sh
 
 after_success:
