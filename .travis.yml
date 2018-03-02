@@ -20,6 +20,7 @@ script:
   - $(./scripts/get_env.sh)
   - sleep 20
   - ./scripts/wait_ready.sh
+  - docker-compose logs anchore-engine
 
 after_success:
   - docker-compose stop anchore-engine
