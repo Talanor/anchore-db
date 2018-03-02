@@ -7,7 +7,8 @@ do
     ./scripts/check_status.sh
 
     if [ $? -eq 0 ]; then
+        anchore-cli system status
         break
     fi
-    sleep 1
+    sleep 10
 done
